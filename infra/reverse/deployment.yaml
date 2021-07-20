@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ud-reverseproxy
+  labels:
+    app: ud-reverseproxy
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      add_header Access-Control-Allow-Origin $http_origin;
+      add_header Access-Control-Allow-Methods "PUT, POST, GET, OPTIONS";
+      add_header Access-Control-Allow-Credentials true;
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ud-reverseproxy
+  template:
+    metadata:
+      labels:
+        app: ud-reverseproxy
+    spec:
+      containers:
+      - name: ud-reverseproxy
+        image: botelhorv/ud-reverseproxy
+        ports:
+        - containerPort: 8080

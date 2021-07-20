@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ud-frontend
+  labels:
+    app: ud-frontend
+spec:
+  replicas: 2       
+  selector:
+    matchLabels:
+      app: ud-frontend
+  template:
+    metadata:
+      labels:
+        app: ud-frontend
+    spec:
+      containers:
+      - name: ud-frontend
+        image: botelhorv/ud-frontend
+        ports:
+        - containerPort: 80

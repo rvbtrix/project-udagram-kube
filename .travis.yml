@@ -1,0 +1,32 @@
+language: node_js
+node_js:
+  - 13
+
+services:
+  - docker
+
+# Pre-testing installs
+install:
+  - echo "nothing needs to be installed"
+
+# Scripts to be run such as tests
+before_script:
+  - echo "no tests"
+
+script:
+  - docker --version # print the version for logging
+  - docker build -t ud-feed ./ud-feed
+  - docker tag ud-feed botelhorv/ud-feed:latest
+  - docker build -t ud-reverseproxy ./ud-reverseproxy
+  - docker tag ud-reverseproxy botelhorv/ud-reverseproxy:latest
+  - docker build -t ud-user ./ud-user
+  - docker tag ud-user botelhorv/ud-user:latest
+  - docker build -t ud-frontend ./ud-frontend
+  - docker tag ud-frontend botelhorv/ud-frontend:latest
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push botelhorv/ud-feed:latest
+  - docker push botelhorv/ud-reverseproxy:latest
+  - docker push botelhorv/ud-user:latest
+  - docker push botelhorv/ud-frontend:latest

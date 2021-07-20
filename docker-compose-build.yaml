@@ -1,0 +1,18 @@
+version: "3"
+services:
+  reverseproxy:
+    build:
+      context: ./ud-reverseproxy
+    image: ud-reverseproxy
+  user:
+    build:
+      context: ./ud-user
+    image: ud-user
+  feed:
+    build:
+      context: ./ud-feed
+    image: ud-feed
+  frontend:
+    build:
+      context: ./ud-frontend
+    image: ud-frontend:local
